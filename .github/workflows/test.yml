@@ -8,6 +8,11 @@ on:
       - back-end/**
       - .github/workflows/*
 
+env:
+  PROJECT_ID: ${{ secrets.GCE_PROJECT }}
+  GCE_INSTANCE: dnd-3rd
+  GCE_INSTANCE_ZONE: asia-northeast3-a
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -15,5 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Echo
-        run: echo hello
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: latest
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+      - run: gcloud info
